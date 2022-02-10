@@ -169,23 +169,6 @@
                     }
                 }
             }
-        },
-        {
-            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings",
-            "apiVersion": "2021-10-15",
-            "name": "[concat(parameters('databaseAccounts_cosmos_acdc2022_name'), '/ACDC2022/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('databaseAccounts_cosmos_acdc2022_name'), 'ACDC2022')]",
-                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmos_acdc2022_name'))]"
-            ],
-            "properties": {
-                "resource": {
-                    "throughput": 400,
-                    "autoscaleSettings": {
-                        "maxThroughput": 4000
-                    }
-                }
-            }
         }
     ]
 }
