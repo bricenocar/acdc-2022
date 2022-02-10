@@ -12,7 +12,7 @@
     "resources": [
         {
             "type": "Microsoft.Storage/storageAccounts",
-            "apiVersion": "2021-06-01",
+            "apiVersion": "2019-06-01",
             "name": "[parameters('storageAccounts_iotpap_name')]",
             "location": "northeurope",
             "sku": {
@@ -52,7 +52,7 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
-            "apiVersion": "2021-06-01",
+            "apiVersion": "2019-06-01",
             "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_iotpap_name'))]"
@@ -84,7 +84,7 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices",
-            "apiVersion": "2021-06-01",
+            "apiVersion": "2019-06-01",
             "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_iotpap_name'))]"
@@ -108,7 +108,7 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts/queueServices",
-            "apiVersion": "2021-06-01",
+            "apiVersion": "2019-06-01",
             "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_iotpap_name'))]"
@@ -121,7 +121,7 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts/tableServices",
-            "apiVersion": "2021-06-01",
+            "apiVersion": "2019-06-01",
             "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_iotpap_name'))]"
@@ -134,7 +134,7 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2021-06-01",
+            "apiVersion": "2019-06-01",
             "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default/bilder')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_iotpap_name'), 'default')]",
