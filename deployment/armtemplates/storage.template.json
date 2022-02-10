@@ -3,17 +3,16 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "storageAccounts_iotpap_name": {
+        "stname": {
             "defaultValue": "iotpap",
             "type": "string"
         }
     },
-    "variables": {},
     "resources": [
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
-            "name": "[parameters('storageAccounts_iotpap_name')]",
+            "name": "[parameters('stname')]",
             "location": "northeurope",
             "sku": {
                 "name": "Standard_RAGRS",
@@ -53,9 +52,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default')]",
+            "name": "[concat(parameters('stname'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_iotpap_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('stname'))]"
             ],
             "sku": {
                 "name": "Standard_RAGRS",
@@ -83,35 +82,11 @@
             }
         },
         {
-            "type": "Microsoft.Storage/storageAccounts/fileServices",
-            "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_iotpap_name'))]"
-            ],
-            "sku": {
-                "name": "Standard_RAGRS",
-                "tier": "Standard"
-            },
-            "properties": {
-                "protocolSettings": {
-                    "smb": {}
-                },
-                "cors": {
-                    "corsRules": []
-                },
-                "shareDeleteRetentionPolicy": {
-                    "enabled": true,
-                    "days": 7
-                }
-            }
-        },
-        {
             "type": "Microsoft.Storage/storageAccounts/queueServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default')]",
+            "name": "[concat(parameters('stname'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_iotpap_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('stname'))]"
             ],
             "properties": {
                 "cors": {
@@ -122,9 +97,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/tableServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default')]",
+            "name": "[concat(parameters('stname'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_iotpap_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('stname'))]"
             ],
             "properties": {
                 "cors": {
@@ -135,10 +110,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_iotpap_name'), '/default/bilder')]",
+            "name": "[concat(parameters('stname'), '/default/bilder')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_iotpap_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_iotpap_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('stname'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('stname'))]"
             ],
             "properties": {
                 "immutableStorageWithVersioning": {
