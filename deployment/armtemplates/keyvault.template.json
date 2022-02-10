@@ -4,7 +4,7 @@
     "parameters": {
         "vaults_kv_acdc2022_name": {
             "defaultValue": "kv-acdc2022",
-            "type": "String"
+            "type": "string"
         }
     },
     "variables": {},
