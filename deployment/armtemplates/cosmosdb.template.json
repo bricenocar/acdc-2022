@@ -23,25 +23,7 @@
                 "type": "None"
             },
             "properties": {
-                "publicNetworkAccess": "Enabled",
-                "enableAutomaticFailover": false,
-                "enableMultipleWriteLocations": false,
-                "isVirtualNetworkFilterEnabled": false,
-                "virtualNetworkRules": [],
-                "disableKeyBasedMetadataWriteAccess": false,
-                "enableFreeTier": true,
-                "analyticalStorageConfiguration": {
-                    "schemaType": "WellDefined"
-                },
-                "databaseAccountOfferType": "Standard",
-                "defaultIdentity": "FirstPartyIdentity",
-                "networkAclBypass": "None",
-                "disableLocalAuth": false,
-                "consistencyPolicy": {
-                    "defaultConsistencyLevel": "Session",
-                    "maxIntervalInSeconds": 5,
-                    "maxStalenessPrefix": 100
-                },
+                "databaseAccountOfferType": "Standard",                
                 "locations": [
                     {
                         "locationName": "Norway East",
@@ -49,19 +31,7 @@
                         "failoverPriority": 0,
                         "isZoneRedundant": false
                     }
-                ],
-                "cors": [],
-                "capabilities": [],
-                "ipRules": [],
-                "backupPolicy": {
-                    "type": "Periodic",
-                    "periodicModeProperties": {
-                        "backupIntervalInMinutes": 240,
-                        "backupRetentionIntervalInHours": 8,
-                        "backupStorageRedundancy": "Geo"
-                    }
-                },
-                "networkAclBypassResourceIds": []
+                ]
             }
         },
         {
