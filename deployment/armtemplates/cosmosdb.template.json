@@ -30,7 +30,6 @@
                 "virtualNetworkRules": [],
                 "disableKeyBasedMetadataWriteAccess": false,
                 "enableFreeTier": true,
-                "enableAnalyticalStorage": false,
                 "analyticalStorageConfiguration": {
                     "schemaType": "WellDefined"
                 },
