@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "vaults_kv_acdc2022_name": {
-            "value": null
+            "value": "kv-acdc2022"
         }
     }
 }

@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "databaseAccounts_cosmos_acdc2022_name": {
-            "value": null
+            "value": "cosmos-acdc2022"
         }
     }
 }
