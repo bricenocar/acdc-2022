@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageAccounts_iotpap_name": {
-            "value": null
+            "value": "iotpap"
         }
     }
 }
