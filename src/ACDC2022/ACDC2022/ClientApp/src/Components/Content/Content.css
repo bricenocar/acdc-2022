@@ -1,0 +1,25 @@
+.wrapper {    
+    max-width: 80%;    
+    margin: auto;    
+    background: #fff;    
+    margin-top: 50px;    
+    display: flex;    
+    flex-direction: column;    
+    padding-left: 50px;    
+    padding-right: 50px;    
+    padding-bottom: 50px;    
+  }
+
+.fadeOut {
+    opacity:0;
+    width:0;
+    height:0;
+    transition: width 0.5s 0.5s, height 0.5s 0.5s, opacity 0.5s;
+}
+
+.fadeIn {
+    opacity:1;
+    width:100px;
+    height:100px;
+    transition: width 0.5s, height 0.5s, opacity 0.5s 0.5s;
+}
