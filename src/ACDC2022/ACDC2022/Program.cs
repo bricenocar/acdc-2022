@@ -80,8 +80,10 @@ builder.Services.AddSignalR().AddAzureSignalR();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITelemetryRepository, TelemetryRepository>();
+builder.Services.AddScoped<ITelemetryRepository, TelemetryRepository>();
 
 #endregion
 
@@ -97,14 +99,17 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseRouting();
 app.UseSession();
 app.UseRouting();
+app.UseFileServer();
 app.UseCors("CorsPolicy");
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<LocationHub>("/location");
+    endpoints.MapHub<TelemetryHub>("/telemetry");
 });
 
 app.MapControllerRoute(

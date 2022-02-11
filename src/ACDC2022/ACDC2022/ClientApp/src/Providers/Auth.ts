@@ -79,7 +79,6 @@ export const AuthProvider = () => {
 
     const signCheck = async () => {
         try {
-            debugger;
             const response = await api.signCheck();
             if (response.ok) {
                 const user = response?.data;
