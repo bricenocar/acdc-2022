@@ -4,7 +4,7 @@
     "parameters": {
         "vaults_kv_acdc2022_name": {
             "defaultValue": "kv-acdc2022",
-            "type": "String"
+            "type": "string"
         }
     },
     "variables": {},
@@ -74,48 +74,6 @@
                 "vaultUri": "[concat('https://', parameters('vaults_kv_acdc2022_name'), '.vault.azure.net/')]",
                 "provisioningState": "Succeeded",
                 "publicNetworkAccess": "Enabled"
-            }
-        },
-        {
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "apiVersion": "2021-06-01-preview",
-            "name": "[concat(parameters('vaults_kv_acdc2022_name'), '/CosmosDb-AccountKey')]",
-            "location": "norwayeast",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_kv_acdc2022_name'))]"
-            ],
-            "properties": {
-                "attributes": {
-                    "enabled": true
-                }
-            }
-        },
-        {
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "apiVersion": "2021-06-01-preview",
-            "name": "[concat(parameters('vaults_kv_acdc2022_name'), '/CosmosDb-DatabaseName')]",
-            "location": "norwayeast",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_kv_acdc2022_name'))]"
-            ],
-            "properties": {
-                "attributes": {
-                    "enabled": true
-                }
-            }
-        },
-        {
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "apiVersion": "2021-06-01-preview",
-            "name": "[concat(parameters('vaults_kv_acdc2022_name'), '/CosmosDb-EndPoint')]",
-            "location": "norwayeast",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_kv_acdc2022_name'))]"
-            ],
-            "properties": {
-                "attributes": {
-                    "enabled": true
-                }
             }
         }
     ]
