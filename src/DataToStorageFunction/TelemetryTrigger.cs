@@ -70,6 +70,13 @@ namespace TelemetryEvents
                         Alt = telemetryMessage.telemetry.geolocation.alt
                     };
                 }
+                if (telemetryMessage.telemetry.rotation != null && telemetryMessage.telemetry.rotation.x != null)
+                {
+                    data.GyroscopeX = telemetryMessage.telemetry.rotation.x;
+                    data.GyroscopeY = telemetryMessage.telemetry.rotation.y;
+                    data.GyroscopeZ = telemetryMessage.telemetry.rotation.z;
+
+                }
                 var document = new CosmosDocument
                 {
                     Document = new TelemetryDocument

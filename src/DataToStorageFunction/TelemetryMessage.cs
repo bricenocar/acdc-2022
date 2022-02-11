@@ -16,7 +16,7 @@ public class data
     public Coordinates accelerometer { get; set; }
     public double? barometer { get; set; }
     public double? battery { get; set; }
-    public Coordinates gyroscope { get; set; }
+    public Coordinates rotation { get; set; }
     public Coordinates magnetometer { get; set; }
 }
 
