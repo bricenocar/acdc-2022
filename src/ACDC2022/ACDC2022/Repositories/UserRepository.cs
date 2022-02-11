@@ -13,12 +13,10 @@ namespace ACDC2022.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ACDC2022DbContext _dbContext;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserRepository(ACDC2022DbContext dbContext, IHttpContextAccessor httpContextAccessor)
+        public UserRepository(ACDC2022DbContext dbContext)
         {
             _dbContext = dbContext;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public User? GetUserByWalletId(string walletId)

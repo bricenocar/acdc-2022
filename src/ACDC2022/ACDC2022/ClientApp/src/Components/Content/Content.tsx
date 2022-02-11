@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { Label, PrimaryButton, Stack, TextField } from '@fluentui/react';
+import { useEffect, useState } from 'react';
+import { Label, Separator, Stack } from '@fluentui/react';
 import * as signalR from "@microsoft/signalr";
+import * as atlas from 'azure-maps-control';
 
 import '@fluentui/react/dist/css/fabric.css';
 import './Content.css';
@@ -8,55 +9,81 @@ import 'antd/dist/antd.css';
 
 const Content = () => {
 
-    const divMessages = document.querySelector("#divMessages");
-    const tbMessage: HTMLInputElement | null = document.querySelector("#tbMessage");
-    let username = new Date().getTime();
+    const [position, setPosition] = useState('');
 
-    const connection = new signalR.HubConnectionBuilder()
-        // .withUrl("https://localhost:44417/location")
-        .withUrl("https://localhost:44417/location", {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets
-        }).build();
-
-    connection.on("messageReceived", (username: string, message: string) => {
-        let messages = document.createElement("div");
-
-        messages.innerHTML =
-            `<div class="message-author">${username}</div><div>${message}</div>`;
-
-        divMessages!.appendChild(messages);
-        divMessages!.scrollTop = divMessages!.scrollHeight;
-    });
-
-    connection.start().catch(err => document.write(err));
-
-    const onKeyUp = (e: any) => {
-        if (e.key === "Enter") {
-            send();
-        }
-    };
-
-    const onClick = () => {
-        debugger;
-        send();
-    };
-
-    const send = () => {
-        connection.send("broadcastMessage", username, "test")
-            .then(() => username = new Date().getTime());
+    const onConnected = (connection: any) => {
+        setInterval(() => {
+            connection.send('requestData');
+        }, 2000);
     }
+
+    useEffect(() => {
+        const connection = new signalR.HubConnectionBuilder().withUrl('https://localhost:7052/telemetry').build();
+
+        connection!.on("responseData", (data: string) => {
+            setPosition(data);
+        });
+
+        connection!.start()
+            .then(function () {
+                onConnected(connection);
+            })
+            .catch(function (error) {
+                console.error(error.message);
+            });
+    }, []);
+
+    useEffect(() => {
+        const map = new atlas.Map('myMap', {
+            center: [10.664696709431993, 59.975094689960905],
+            zoom: 18.5,
+            view: 'Auto',
+            language: 'en-US',
+            showBuildingModels: true,
+            renderWorldCopies: true,
+            showLogo: false,
+            showFeedbackLink: false,
+            style: 'satellite_road_labels',
+            authOptions: {
+                authType: atlas.AuthenticationType.subscriptionKey,
+                subscriptionKey: 'YAbaX7I6g_-21K39a6IWCCszOYOAkqybS4LWO4tGawI'
+            }
+        });
+
+        //Wait until the map resources are ready.
+        map.events.add('ready', function () {
+
+            //Construct a pitch control and add it to the map.
+            map.controls.add(new atlas.control.PitchControl(), {
+                position: atlas.ControlPosition.TopRight
+            });
+
+            /* Construct a zoom control*/
+            var zoomControl = new atlas.control.ZoomControl();
+
+            /* Add the zoom control to the map*/
+            map.controls.add(zoomControl, {
+                position: atlas.ControlPosition.BottomRight
+            });
+
+            //Create a HTML marker and add it to the map.
+            map.markers.add(new atlas.HtmlMarker({
+                htmlContent: "<div><div class='pin bounce' style='background-color:#77b3e4'></div><div class='pulse'></div></div>",
+                position: [10.66468, 59.97509],
+                pixelOffset: [5, -18]
+            }));
+
+        });
+    }, []);
 
     // Test code testing SignalR Hub
     return (
         <div>
             <div className="wrapper">
-
-                <Stack id="divMessages" className="messages"></Stack>
                 <Stack>
-                    <Label id="lblMessage">Message:</Label>
-                    <TextField id="tbMessage" onKeyUp={(e) => onKeyUp(e)}></TextField>
-                    <PrimaryButton id="btnSend" onClick={onClick}>Send</PrimaryButton>
+                    <Label>{position}</Label>
+                    <Separator />
+                    <div id="myMap"></div>
                 </Stack>
             </div>
         </div>
