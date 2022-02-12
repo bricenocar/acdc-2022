@@ -6,6 +6,7 @@ namespace ACDC2022.Services
     public interface ITelemetryService
     {
         List<Telemetry> GetTelemetriesWithGeolocation();
+        void DeleteAllTelemetries();
     }
 
     public class TelemetryService : ITelemetryService
@@ -21,6 +22,12 @@ namespace ACDC2022.Services
         {
             // Get user
             return _telemetryRepository.GetTelemetriesWithGeolocation();
+        }
+
+        public void DeleteAllTelemetries()
+        {
+            // Get user
+            _telemetryRepository.DeleteAllTelemetries();
         }
     }
 }

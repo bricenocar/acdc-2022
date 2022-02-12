@@ -1,26 +1,44 @@
-﻿namespace ACDC2022.Models
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+
+namespace ACDC2022.Models
 {
     public class Telemetry
     {
-        public string DeviceId { get; set; }
-        public Data Data { get; set; }
-        public string Timestamp { get; set; }
-        public string DeviceType { get; set; }
+        [Key]       
+        public string id { get; set; }
+        public string? DeviceId { get; set; }
+        public string? DeviceType { get; set; }
+        public Data? Data { get; set; }
+        public DateTime? Timestamp { get; set; }
     }
 
     public class Data
     {
-        public string AccelerometerX { get; set; }
-        public string AccelerometerY { get; set; }
-        public string AccelerometerZ { get; set; }
-        public string GyroscopeX { get; set; }
-        public string GyroscopeY { get; set; }
-        public string GyroscopeZ { get; set; }
-        public string Humidity { get; set; }
-        public string MagnetometerX { get; set; }
-        public string MagnetometerY { get; set; }
-        public string MagnetometerZ { get; set; }
-        public string Pressure { get; set; }
-        public string Temperature { get; set; }
+        public double? AccelerometerX { get; set; }
+        public double? AccelerometerY { get; set; }
+        public double? AccelerometerZ { get; set; }
+
+        public double? GyroscopeX { get; set; }
+        public double? GyroscopeY { get; set; }
+        public double? GyroscopeZ { get; set; }
+
+        public double? Humidity { get; set; }
+        public double? MagnetometerX { get; set; }
+        public double? MagnetometerY { get; set; }
+        public double? MagnetometerZ { get; set; }
+
+        public double? Pressure { get; set; }
+        public double? Temperature { get; set; }
+        public Geolocation? Geolocation { get; set; }
+        public double? Battery { get; set; }
+        public double? Barometer { get; set; }
+    }
+
+    public class Geolocation
+    {
+        public double? Lat { get; set; }
+        public double? Lon { get; set; }
+        public double? Alt { get; set; }
     }
 }

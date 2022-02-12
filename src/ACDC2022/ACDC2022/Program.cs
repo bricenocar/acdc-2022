@@ -24,6 +24,16 @@ builder.Services.AddSession(options =>
 
 #endregion
 
+#region Azure KeyVault
+
+if (!builder.Environment.IsDevelopment())
+{
+    var keyVaultName = builder.Configuration.GetSection("Azure").GetSection("KeyVault").GetValue(typeof(string), "Name");
+    builder.Configuration.AddAzureKeyVault(new Uri($"https://{keyVaultName}.vault.azure.net/"), new DefaultAzureCredential());
+}
+
+#endregion
+
 #region Cors Settings
 
 builder.Services.AddCors(options =>
@@ -49,16 +59,6 @@ builder.Services.AddDbContext<ACDC2022DbContext>(options => options.UseCosmos(en
 
 #endregion
 
-#region Azure KeyVault
-
-if (!builder.Environment.IsDevelopment())
-{
-    var keyVaultName = builder.Configuration.GetSection("Azure").GetSection("KeyVault").GetValue(typeof(string), "Name");
-    builder.Configuration.AddAzureKeyVault(new Uri($"https://{keyVaultName}.vault.azure.net/"), new DefaultAzureCredential());
-}
-
-#endregion
-
 #region Controllers
 
 builder.Services.AddControllersWithViews()
@@ -80,9 +80,9 @@ builder.Services.AddSignalR().AddAzureSignalR();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITelemetryService, TelemetryService>();
 
-builder.Services.AddScoped<ITelemetryRepository, TelemetryRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITelemetryRepository, TelemetryRepository>();
 
 #endregion
@@ -98,6 +98,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseDeveloperExceptionPage();
 app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();

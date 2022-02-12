@@ -20,12 +20,7 @@ export const App: React.FunctionComponent = () => {
     <AuthContext.Provider value={useAuth}>
       <div className="ms-Grid" dir="ltr">
         <div className="ms-Grid-row">
-          <div className="main-element ms-Grid-col ms-sm12 ms-xl12">
-            <div className="ms-Grid-row">
-              <div className="ms-Grid-col ms-sm12 ms-xl12">
-                <Header />
-              </div>
-            </div>
+          <div className="main-element ms-Grid-col ms-sm12 ms-xl12">           
             <div className="ms-Grid-row">
               <div className="ms-Grid-col ms-sm12 ms-xl12">
                 <Content />

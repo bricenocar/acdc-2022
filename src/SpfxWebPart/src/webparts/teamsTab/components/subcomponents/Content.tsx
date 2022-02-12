@@ -1,18 +1,25 @@
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Stack } from '@fluentui/react';
 import * as signalR from "@microsoft/signalr";
 import * as atlas from 'azure-maps-control';
+import { Telemetry } from '../../models/Telemetry';
+import {SPComponentLoader} from '@microsoft/sp-loader';
 
 import '@fluentui/react/dist/css/fabric.css';
 import './Content.css';
-import 'antd/dist/antd.css';
-import { Telemetry } from '../../Models/Telemetry';
 
+// Content hook
 const Content = () => {
 
+    // Add external maps css
+    SPComponentLoader.loadCss('https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css');
+
+    // Configure states
     const [positions, setPositions] = useState([] as Telemetry[]);
     const [map, setMap] = useState({} as atlas.Map);
 
+    // On signalr connected
     const onConnected = (connection: any) => {
         if (window.location.href.indexOf('/none') <= 0) {
             setInterval(() => {
@@ -28,7 +35,7 @@ const Content = () => {
                 }
             }, 2000);
         }
-    }
+    };
 
     /* SIGNAL R */
     useEffect(() => {
@@ -39,17 +46,17 @@ const Content = () => {
         });
 
         connection!.start()
-            .then(function () {
+            .then(() => {
                 onConnected(connection);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.error(error.message);
             });
     }, []);
 
     /* MAP */
     useEffect(() => {
-        const map = new atlas.Map('myMap', {
+        let map = new atlas.Map('myMap', {
             center: [10.664696709431993, 59.975094689960905],
             zoom: 18.3,
             pitch: 50,
@@ -69,7 +76,7 @@ const Content = () => {
         setMap(map);
 
         // Wait until the map resources are ready.
-        map.events.add('ready', function () {
+        map.events.add('ready', () => {
             //Construct a pitch control and add it to the map.
             map.controls.add(new atlas.control.PitchControl(), {
                 position: atlas.ControlPosition.TopRight
@@ -99,17 +106,7 @@ const Content = () => {
                     pixelOffset: [6, -15]
                 }));
             });
-
-            /*map.markers.getMarkers().forEach((m, i) => {
-                const position = positions.find((p) => m.getElement().innerHTML.indexOf(`${p.deviceId}`) > 0);
-                if (position && position.data) {
-                    const options = m.getOptions();
-                    options.position = [position.data.geolocation.lon, position.data.geolocation.lat];
-                    m.setOptions(options);
-                }
-            });*/
         }
-
     }, [positions]);
 
     // Test code testing SignalR Hub
