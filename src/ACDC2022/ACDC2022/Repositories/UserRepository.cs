@@ -2,41 +2,40 @@
 using ACDC2022.Models;
 using ACDC2022.Utilities;
 
-namespace ACDC2022.Repositories
+namespace ACDC2022.Repositories;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
+    User GetUserByWalletId(string walletId);
+    Task<User> AddUserAsync(HttpContext httpContext, string walletId);
+}
+
+public class UserRepository : IUserRepository
+{
+    private readonly ACDC2022DbContext _dbContext;
+
+    public UserRepository(ACDC2022DbContext dbContext)
     {
-        User GetUserByWalletId(string walletId);
-        Task<User> AddUserAsync(HttpContext httpContext, string walletId);
+        _dbContext = dbContext;
     }
 
-    public class UserRepository : IUserRepository
+    public User? GetUserByWalletId(string walletId)
     {
-        private readonly ACDC2022DbContext _dbContext;
+        return _dbContext.Users.FirstOrDefault(u => u.WalletId.Equals(walletId, StringComparison.OrdinalIgnoreCase));
+    }
 
-        public UserRepository(ACDC2022DbContext dbContext)
+    public async Task<User> AddUserAsync(HttpContext httpContext, string walletId)
+    {
+        var newUser = new User
         {
-            _dbContext = dbContext;
-        }
+            UserId = Guid.NewGuid(),
+            WalletId = walletId,
+            IpAddress = HttpClientUtilities.GetClientIPAddress(httpContext)
+        };
 
-        public User? GetUserByWalletId(string walletId)
-        {
-            return _dbContext.Users.FirstOrDefault(u => u.WalletId.Equals(walletId, StringComparison.OrdinalIgnoreCase));
-        }
+        await _dbContext.Users.AddAsync(newUser);
+        _dbContext.SaveChanges();
 
-        public async Task<User> AddUserAsync(HttpContext httpContext, string walletId)
-        {
-            var newUser = new User
-            {
-                UserId = Guid.NewGuid(),
-                WalletId = walletId, 
-                IpAddress = HttpClientUtilities.GetClientIPAddress(httpContext)
-            };
-
-            await _dbContext.Users.AddAsync(newUser);
-            _dbContext.SaveChanges();
-
-            return newUser;
-        }
+        return newUser;
     }
 }

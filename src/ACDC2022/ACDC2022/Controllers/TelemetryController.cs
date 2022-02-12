@@ -1,32 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ACDC2022.Services;
+﻿using ACDC2022.Services;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ACDC2022.Controllers
+namespace ACDC2022.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class TelemetryController : Controller
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TelemetryController : Controller
+    private readonly ITelemetryService _telemetryService;
+
+    public TelemetryController(ITelemetryService telemetryService)
     {
-        private readonly ITelemetryService _telemetryService;
+        _telemetryService = telemetryService;
+    }
 
-        public TelemetryController(ITelemetryService telemetryService)
+    [HttpGet]
+    [Route("GetTelemetry")]
+    public async Task<IActionResult> GetTelemetry()
+    {
+        try
         {
-            _telemetryService = telemetryService;
+            var telemetries = _telemetryService.GetTelemetriesWithGeolocation();
+            return Ok(telemetries);
         }
-
-        [HttpGet]
-        [Route("GetTelemetry")]
-        public async Task<IActionResult> GetTelemetry()
+        catch (Exception ex)
         {
-            try
-            {
-                var telemetries = _telemetryService.GetTelemetriesWithGeolocation();
-                return Ok(telemetries);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
+            return StatusCode(StatusCodes.Status500InternalServerError, ex);
         }
     }
 }
