@@ -1,34 +1,33 @@
 ﻿using ACDC2022.Models;
 using ACDC2022.Repositories;
 
-namespace ACDC2022.Services
+namespace ACDC2022.Services;
+
+public interface IUserService
 {
-    public interface IUserService
+    Task<User> EnsureUserAsync(HttpContext httpContext, string walletId);
+}
+
+public class UserService : IUserService
+{
+    private readonly IUserRepository _userRepository;
+
+    public UserService(IUserRepository userRepository)
     {
-        Task<User> EnsureUserAsync(HttpContext httpContext, string walletId);
+        _userRepository = userRepository;
     }
 
-    public class UserService : IUserService
+    public async Task<User> EnsureUserAsync(HttpContext httpContext, string walletId)
     {
-        private readonly IUserRepository _userRepository;
+        // Get user
+        var user = _userRepository.GetUserByWalletId(walletId);
 
-        public UserService(IUserRepository userRepository)
+        if (user == null)
         {
-            _userRepository = userRepository;
+            // Create user in DB
+            user = await _userRepository.AddUserAsync(httpContext, walletId);
         }
 
-        public async Task<User> EnsureUserAsync(HttpContext httpContext, string walletId)
-        {
-            // Get user
-            var user = _userRepository.GetUserByWalletId(walletId);
-
-            if (user == null)
-            {
-                // Create user in DB
-                user = await _userRepository.AddUserAsync(httpContext, walletId);
-            }
-
-            return user;
-        }
+        return user;
     }
 }
