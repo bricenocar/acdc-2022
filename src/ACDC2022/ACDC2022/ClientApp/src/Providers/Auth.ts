@@ -55,7 +55,7 @@ export const AuthProvider = () => {
             }
         }
         else {
-            alert('Metamask was not found!');
+            alert('Metamask was not found');
         }
 
         return null;
